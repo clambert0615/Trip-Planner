@@ -32,6 +32,15 @@ namespace TripPlanner.Models
             ZipCode zip = JsonConvert.DeserializeObject<ZipCode>(zipjson);
             return zip;
         }
+        public async Task<CityState> GetCity(string zip)
+        {
+            HttpClient client = GetHttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{APIKey}/info.json/{zip}/degrees");
+            var cityjson = await response.Content.ReadAsStringAsync();
+            CityState city = JsonConvert.DeserializeObject<CityState>(cityjson);
+            return city;
+        }
 
+        
     }
 }

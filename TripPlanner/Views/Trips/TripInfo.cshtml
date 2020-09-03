@@ -1,0 +1,27 @@
+﻿@using TripPlanner.Models
+
+@model BasicInfo
+
+<h1 style="text-align:center">@Model.CityState.city, @Model.CityState.state</h1>
+<br />
+<br />
+<h3 style="font-family:Arial">Latest Covid Informtion for @Model.CityState.city:</h3>
+@foreach(var c in Model.Covid.counties)
+{
+    foreach(var d in c.historicData)
+    {
+        <p>Date: @d.date</p>
+        <p>Positive Count Total (to date): @d.positiveCt</p>
+        <p>Death Count Total (to date): @d.deathCt</p>
+        @if(d.recoveredCt != null)
+        {
+            <p>Recovered Count (to date): @d.recoveredCt</p>
+        }
+        
+    }
+}
+<br />
+<br />
+<h3>Restaurants in @Model.CityState.city</h3>
+<p>During your trip you are sure to get hungry!  Check out all of the great local cuisine here:
+    <button onclick="location.href='/Trips/Restaurants?lat=@Model.CityState.lat&lng=@Model.CityState.lng&city=@Model.CityState.city'">Restaurants</button></p>

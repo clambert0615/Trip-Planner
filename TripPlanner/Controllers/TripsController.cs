@@ -13,10 +13,15 @@ namespace TripPlanner.Controllers
         private readonly TripPlannerDbContext _context;
         private ZipCodeDAL zd;
         private CovidDAL cd = new CovidDAL();
+        private PlacesDAL pd;
+        public BasicInfo bi = new BasicInfo { Covid = new Covid(), CityState = new CityState(), ZipCode = new ZipCode(),
+        Restaurants = new Eating()};
+        public CityState cs = new CityState();
         public TripsController(TripPlannerDbContext Context, IConfiguration configuration)
         {
             _context = Context;
             zd = new ZipCodeDAL(configuration);
+            pd = new PlacesDAL(configuration);
         }
         public IActionResult TripIndex()
         {
@@ -28,21 +33,37 @@ namespace TripPlanner.Controllers
         {
             if(zip != null)
             {
-                return RedirectToAction("TripInfo", new { zip });
+                return RedirectToAction("TripInfo", new { zip, city, state });
             }
             else
             {
                 var zips = (await zd.GetZip(city, state)).zip_codes.ToList();
                 zip = zips[0];
-                return RedirectToAction("TripInfo", new { zip });
+                return RedirectToAction("TripInfo", new { zip, city, state });
             }
         }
 
         [HttpGet]
         public async Task<IActionResult> TripInfo(string zip)
         {
-            Covid result = await cd.GetCovid(zip);
-            return View(result);
+            Covid covid = await cd.GetCovid(zip);
+             cs = await zd.GetCity(zip);
+
+            bi.Covid = covid;
+            bi.CityState.city = cs.city;
+            bi.CityState.state = cs.state;
+            bi.CityState.lat = cs.lat;
+            bi.CityState.lng = cs.lng;
+          
+            return View(bi);
+
+        }
+        public async Task<IActionResult> Restaurants(float lat, float lng, string city)
+        {
+            var restaurants = (await pd.GetRestaurants(lat, lng)).results;
+            bi.Restaurants.results = restaurants;
+            bi.CityState.city = city;
+            return View(bi);
         }
 
 

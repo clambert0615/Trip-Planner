@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace TripPlanner.Models
 {
@@ -10,11 +11,12 @@ namespace TripPlanner.Models
         {
         }
 
-        public TripPlannerDbContext(DbContextOptions<TripPlannerDbContext> options)
+        public TripPlannerDbContext(DbContextOptions<TripPlannerDbContext> options, IConfiguration configuration)
             : base(options)
         {
+            Configuration = configuration;
         }
-
+        public IConfiguration Configuration { get; set; }
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -31,7 +33,7 @@ namespace TripPlanner.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=TripPlannerDb;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")); 
             }
         }
 
