@@ -67,7 +67,7 @@ namespace TripPlanner
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Trips}/{action=TripIndex}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

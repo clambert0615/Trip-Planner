@@ -15,7 +15,7 @@ namespace TripPlanner.Controllers
         private CovidDAL cd = new CovidDAL();
         private PlacesDAL pd;
         public BasicInfo bi = new BasicInfo { Covid = new Covid(), CityState = new CityState(), ZipCode = new ZipCode(),
-        Restaurants = new Eating()};
+        Restaurants = new Eating(), Attractions = new Attractions(), Lodging = new Lodging(), Details = new PlaceDetails()};
         public CityState cs = new CityState();
         public TripsController(TripPlannerDbContext Context, IConfiguration configuration)
         {
@@ -66,6 +66,27 @@ namespace TripPlanner.Controllers
             return View(bi);
         }
 
+        public async Task<IActionResult> Attractions(float lat, float lng, string city)
+        {
+            var attractions = (await pd.GetAttractions(lat, lng)).results;
+            bi.Attractions.results = attractions;
+            bi.CityState.city = city;
+            return View(bi);
+        }
 
+        public async Task<IActionResult> Lodging(float lat, float lng, string city)
+        {
+            var lodging = (await pd.GetLodging(lat, lng)).results;
+            bi.Lodging.results = lodging;
+            bi.CityState.city = city;
+            return View(bi);
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            var details = (await pd.GetDetails(id)).result;
+            bi.Details.result = details;
+            return View(bi);
+        }
     }
 }

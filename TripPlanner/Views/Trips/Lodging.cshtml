@@ -13,13 +13,13 @@
         </tr>
 
     </thead>
-    @foreach(var restaurant in Model.Restaurants.results)
+    @foreach (var lodging in Model.Lodging.results)
     {
         <tr>
-            <td><a href="/Trips/Details?id=@restaurant.place_id">@restaurant.name</a></td>
-            <td>@restaurant.vicinity</td>
-            <td>@restaurant.rating</td>
-           
+            <td><a href="/Trips/Details?id=@lodging.place_id">@lodging.name</a></td>
+            <td>@lodging.vicinity</td>
+            <td>@lodging.rating</td>
+
         </tr>
     }
 </table>

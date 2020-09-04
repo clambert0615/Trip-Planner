@@ -25,11 +25,13 @@ namespace TripPlanner.Models
             public int price_level { get; set; }
             public float rating { get; set; }
             public string reference { get; set; }
+            public Review[] reviews { get; set; }
             public string scope { get; set; }
             public string[] types { get; set; }
             public int user_ratings_total { get; set; }
             public string vicinity { get; set; }
-        }
+            public string website { get; set; }
+    }
 
         public class Geometry
         {

@@ -11,6 +11,8 @@ namespace TripPlanner.Models
         public CityState CityState { get; set; }
         public ZipCode ZipCode { get; set; }
         public Eating Restaurants { get; set; }
-       
+        public Attractions Attractions { get; set; }
+        public Lodging Lodging { get; set; }
+        public PlaceDetails Details { get; set; }
     }
 }

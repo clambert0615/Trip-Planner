@@ -1,0 +1,20 @@
+﻿@using TripPlanner.Models
+@model BasicInfo
+
+<h1 style="text-align:center">Details for @Model.Details.result.name</h1> 
+<br />
+<p>Address: @Model.Details.result.vicinity <br />
+   Website: @Model.Details.result.website</p>
+<br />
+<h3>User Rating: @Model.Details.result.rating</h3>
+@if(Model.Details.result.reviews.Length > 0)
+{
+    foreach(var review in Model.Details.result.reviews)
+    {
+        <p>Author Name: @review.author_name<br />
+           Rating: @review.rating<br />
+           Review: @review.text</p>
+    }
+}
+<br />
+<br />
