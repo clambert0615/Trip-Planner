@@ -1,0 +1,23 @@
+﻿@using TripPlanner.Models
+@model Places
+
+    <table style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Rating</th>
+            </tr>
+
+        </thead>
+        @foreach (var result in Model.results)
+        {
+            <tr>
+                <td><a href="/Trips/Details?id=@result.place_id">@result.name</a></td>
+                <td>@result.vicinity</td>
+                <td>@result.rating</td>
+
+            </tr>
+        }
+    </table>
+    <button onclick="location.href='/Trips/GetMoreResults?token=@Model.next_page_token'">Next Page</button>

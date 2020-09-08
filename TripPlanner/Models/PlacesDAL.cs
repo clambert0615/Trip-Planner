@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Collections.Generic;
 
 namespace TripPlanner.Models
 {
@@ -58,6 +61,39 @@ namespace TripPlanner.Models
             var detailsjson = await response.Content.ReadAsStringAsync();
             PlaceDetails details = JsonConvert.DeserializeObject<PlaceDetails>(detailsjson);
             return details;
+        }
+
+        public async Task<Places> MorePlaces(string pagetoken)
+        {
+            HttpClient client = GetHttpClient();
+            HttpResponseMessage response = await client.GetAsync($"nearbysearch/json?pagetoken={pagetoken}&key={APIKey}");
+            //install-package Microsoft.AspNet.WebAPI.Client
+            var placesjson = await response.Content.ReadAsStringAsync();
+            Places places = JsonConvert.DeserializeObject<Places>(placesjson);
+            return places;
+        }
+
+      //public async Task<String> GetPhotos(string reference)
+      // {
+      //      HttpClient client = GetHttpClient();
+      //      var response = await client.GetByteArrayAsync($"photo/?maxwidth=200&photoreference={reference}&key={APIKey}");
+      //      string responsebase = Convert.ToBase64String(response);
+      //      string imgresponse = string.Format("data:image/png;base64,{0}", responsebase);
+      //      return imgresponse;
+      //  }
+
+        public async Task<List<PlaceDetails>> GetFavoritesList(List<Favorites> fl)
+        {
+            List<PlaceDetails> pdlist = new List<PlaceDetails>();
+            HttpClient client = GetHttpClient();
+            foreach(Favorites f in fl)
+            {
+                HttpResponseMessage response = await client.GetAsync($"details/json?place_id={f.Destination}&fields=name,formatted_address,photo,place_id,vicinity,website,rating,review&key={APIKey}");
+                var detailsjson = await response.Content.ReadAsStringAsync();
+                PlaceDetails details = JsonConvert.DeserializeObject<PlaceDetails>(detailsjson);
+                pdlist.Add(details);
+            }
+            return pdlist;
         }
       
     }

@@ -14,5 +14,6 @@ namespace TripPlanner.Models
         public Attractions Attractions { get; set; }
         public Lodging Lodging { get; set; }
         public PlaceDetails Details { get; set; }
+        public Places Places { get; set; }
     }
 }

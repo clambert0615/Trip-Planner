@@ -3,6 +3,7 @@
 @model BasicInfo
 
 <h1 style="text-align:center">Restaurants in @Model.CityState.city</h1>
+
 <br />
 <table style="width:100%">
     <thead>
@@ -23,3 +24,4 @@
         </tr>
     }
 </table>
+<button onclick="location.href='/Trips/GetMoreResults?token=@Model.Places.next_page_token'">Next Page</button>

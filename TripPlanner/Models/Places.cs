@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TripPlanner.Models
 {
-    public class Lodging
+    public class Places
     {
         public object[] html_attributions { get; set; }
         public string next_page_token { get; set; }

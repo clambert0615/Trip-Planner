@@ -1,19 +1,30 @@
 ﻿@using TripPlanner.Models
 @model BasicInfo
 
-<h1 style="text-align:center">Details for @Model.Details.result.name</h1> 
+<h1 style="text-align:center">Details for @Model.Details.result.name</h1>
 <br />
-<p>Address: @Model.Details.result.vicinity <br />
-   Website: @Model.Details.result.website</p>
+<h5>Click the button to save this result to your favorites list:
+<button onclick="location.href='/Trips/AddFavorite?id=@Model.Details.result.place_id'">Add to Favorites</button></h5>
+<p>
+    Address: @Model.Details.result.vicinity <br />
+    Website: <a href="@Model.Details.result.website">Click here!</a>
+</p>
 <br />
 <h3>User Rating: @Model.Details.result.rating</h3>
-@if(Model.Details.result.reviews.Length > 0)
+@if (Model.Details.result.reviews.Length > 0)
 {
-    foreach(var review in Model.Details.result.reviews)
+    foreach (var review in Model.Details.result.reviews)
     {
-        <p>Author Name: @review.author_name<br />
-           Rating: @review.rating<br />
-           Review: @review.text</p>
+        <p>
+            Author Name: @review.author_name<br />
+            Rating: @review.rating<br />
+            Review: @review.text
+        </p>
+
+    }
+    foreach (var photo in Model.Details.result.photos)
+    {
+        <img src=@photo.photo_reference>
     }
 }
 <br />

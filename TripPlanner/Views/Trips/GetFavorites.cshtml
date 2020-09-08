@@ -1,0 +1,24 @@
+﻿@using TripPlanner.Models
+@model List<PlaceDetails>
+ <h1 style="text-align:center">Favorites</h1>
+<br />
+    <table style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Rating</th>
+            </tr>
+
+        </thead>
+        @foreach (var fav in Model)
+        {
+            <tr>
+                <td><a href="/Trips/Details?id=@fav.result.place_id">@fav.result.name</a></td>
+                <td>@fav.result.vicinity</td>
+                <td>@fav.result.rating</td>
+                <td><a href="/Trips/DeleteFavorite?id=@fav.result.place_id">Remove Favorite</a></td>
+
+            </tr>
+        }
+    </table>
