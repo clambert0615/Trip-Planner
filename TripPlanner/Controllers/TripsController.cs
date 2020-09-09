@@ -34,15 +34,23 @@ namespace TripPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> GetZip(string zip, string city, string state)
         {
-            if(zip != null)
+            if(zip != null && city != null && state != null)
             {
-                return RedirectToAction("TripInfo", new { zip, city, state });
+                return RedirectToAction("ErrorPage");
             }
-            else
+            else if(zip != null && city == null && state == null)
+            {
+                return RedirectToAction("TripInfo", new { zip });
+            }
+            else if(city != null && state != null && zip == null)
             {
                 var zips = (await zd.GetZip(city, state)).zip_codes.ToList();
                 zip = zips[0];
-                return RedirectToAction("TripInfo", new { zip, city, state });
+                return RedirectToAction("TripInfo", new { zip });
+            }
+            else
+            {
+                return RedirectToAction("ErrorPage");
             }
         }
 
@@ -96,15 +104,12 @@ namespace TripPlanner.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
-            var details = (await pd.GetDetails(id)).result;
-            bi.Details.result = details;
-            
-            //foreach(var photo in details.photos)
-            //{
-            //   await pd.GetPhotos(photo.photo_reference);
-
-            //}
-            return View(bi);
+            var response = await pd.GetDetails(id);
+            var results = response.result;
+            var apiKey = response.apiKey;
+            bi.Details.result = results;
+            bi.Details.apiKey = apiKey;
+             return View(bi);
         }
         public async Task<IActionResult> GetMoreResults(string token)
         {
@@ -143,6 +148,11 @@ namespace TripPlanner.Controllers
             _context.Favorites.Remove(found);
             _context.SaveChanges();
             return RedirectToAction("GetFavorites");
+        }
+
+        public IActionResult ErrorPage()
+        {
+            return View();
         }
     }
 }

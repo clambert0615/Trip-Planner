@@ -13,7 +13,7 @@
             float: left;
             width: 25%;
             padding: 10px;
-            height: 300px; 
+            height: 150px;
         }
 
         .row:after {
@@ -25,53 +25,66 @@
 </head>
 <body>
 
-    <h1 style="text-align:center">@Model.CityState.city, @Model.CityState.state</h1>
+    <h1 style="text-align:center;color:rebeccapurple">@Model.CityState.city, @Model.CityState.state</h1>
     <br />
     <br />
-    <h3 style="font-family:Arial">Latest Covid Informtion for @Model.CityState.city:</h3>
+    <h3>Latest Covid Informtion for @Model.CityState.city:</h3>
     <div class="row">
-       @if (Model.Covid.counties.Length > 0)
-       {
-        @foreach (var c in Model.Covid.counties)
+        @if (Model.Covid.counties != null)
         {
-            foreach (var d in c.historicData)
+            @foreach (var c in Model.Covid.counties)
             {
+                foreach (var d in c.historicData)
+                {
 
-                <div class="column">
-                    <p>
+                    <div class="column">
+
                         Date: @d.date<br />
                         Positive Count Total (to date): @d.positiveCt<br />
                         Death Count Total (to date): @d.deathCt
-                    </p>
-                </div>
+
+                    </div>
+                }
             }
         }
-       }
-       else
-       {
-           <p>No results found</p>
-       }
+        else
+        {
+            <p>No results found</p>
+        }
     </div>
     <h3>Restaurants in @Model.CityState.city</h3>
     <p>
         During your trip you are sure to get hungry!  Check out all of the great local cuisine here:
-        <button onclick="location.href='/Trips/Restaurants?lat=@Model.CityState.lat&lng=@Model.CityState.lng&city=@Model.CityState.city'">Restaurants</button>
+        <button onclick="location.href='/Trips/Restaurants?lat=@Model.CityState.lat&lng=@Model.CityState.lng&city=@Model.CityState.city'" style="background-color:#e6a8d7;border-radius: 8px">Restaurants</button>
     </p>
-    <img src="~/Images/restaurant.jpg" style="width:200px" />
+    <div style="text-align:center">
+        <img src="~/Images/restaurant.jpg" style="width:400px;height:200px" />
+    </div>
     <br />
     <h3>Accomodations in @Model.CityState.city</h3>
     <p>
         Need a place to stay?  There is somewhere to get a relaxing night rest for any budget:
-        <button onclick="location.href='/Trips/Lodging?lat=@Model.CityState.lat&lng=@Model.CityState.lng&city=@Model.CityState.city'">Accomodations</button>
+        <button onclick="location.href='/Trips/Lodging?lat=@Model.CityState.lat&lng=@Model.CityState.lng&city=@Model.CityState.city'" style="background-color:#e6a8d7;border-radius: 8px">Accomodations</button>
     </p>
-    <img src="~/Images/hotel.jpeg" style="width:200px"/>
+    <div style="text-align:center">
+        <img src="~/Images/hotel.jpeg" style="width:400px;height:200px" />
+    </div>
     <br />
     <h3>Attractions in @Model.CityState.city</h3>
     <p>
         No trip is complete without seeing all of the tourist attractions!  No matter what your hobbies are, you will be sure to find something to do!:
-        <button onclick="location.href='/Trips/Attractions?lat=@Model.CityState.lat&lng=@Model.CityState.lng&city=@Model.CityState.city'">Attractions</button>
+        <button onclick="location.href='/Trips/Attractions?lat=@Model.CityState.lat&lng=@Model.CityState.lng&city=@Model.CityState.city'" style="background-color:#e6a8d7;border-radius: 8px">Attractions</button>
     </p>
-
-    <img src="~/Images/museum.jpg" style="width:200px"/>
+    <div style="text-align:center">
+        <img src="~/Images/museum.jpg" style="width:400px;height:200px" />
+    </div>
 </body>
 </html>
+<br />
+<button onclick="goBack()">Go Back</button>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

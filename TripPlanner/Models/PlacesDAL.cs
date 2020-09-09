@@ -60,6 +60,7 @@ namespace TripPlanner.Models
             HttpResponseMessage response = await client.GetAsync($"details/json?place_id={id}&fields=name,formatted_address,photo,place_id,vicinity,website,rating,review&key={APIKey}");
             var detailsjson = await response.Content.ReadAsStringAsync();
             PlaceDetails details = JsonConvert.DeserializeObject<PlaceDetails>(detailsjson);
+            details.apiKey = APIKey;
             return details;
         }
 
@@ -73,15 +74,7 @@ namespace TripPlanner.Models
             return places;
         }
 
-      //public async Task<String> GetPhotos(string reference)
-      // {
-      //      HttpClient client = GetHttpClient();
-      //      var response = await client.GetByteArrayAsync($"photo/?maxwidth=200&photoreference={reference}&key={APIKey}");
-      //      string responsebase = Convert.ToBase64String(response);
-      //      string imgresponse = string.Format("data:image/png;base64,{0}", responsebase);
-      //      return imgresponse;
-      //  }
-
+     
         public async Task<List<PlaceDetails>> GetFavoritesList(List<Favorites> fl)
         {
             List<PlaceDetails> pdlist = new List<PlaceDetails>();

@@ -1,10 +1,19 @@
 ﻿@using TripPlanner.Models
 @model BasicInfo
 
-<h1 style="text-align:center">Details for @Model.Details.result.name</h1>
+<h1 style="text-align:center;color:rebeccapurple">Details for @Model.Details.result.name</h1>
 <br />
-<h5>Click the button to save this result to your favorites list:
-<button onclick="location.href='/Trips/AddFavorite?id=@Model.Details.result.place_id'">Add to Favorites</button></h5>
+<head>
+    <style>
+        hr.new {
+            border: 2px solid rebeccapurple;
+        }
+    </style>
+</head>
+<h5>
+    Click the button to save this result to your favorites list:
+    <button onclick="location.href='/Trips/AddFavorite?id=@Model.Details.result.place_id'" style="background-color:#e6a8d7;border-radius: 8px">Add to Favorites</button>
+</h5>
 <p>
     Address: @Model.Details.result.vicinity <br />
     Website: <a href="@Model.Details.result.website">Click here!</a>
@@ -20,12 +29,24 @@
             Rating: @review.rating<br />
             Review: @review.text
         </p>
-
-    }
-    foreach (var photo in Model.Details.result.photos)
-    {
-        <img src=@photo.photo_reference>
+        <hr class="new" />
     }
 }
+    @if (Model.Details.result.photos.Length > 0)
+    {
+        <h3>Photos</h3>
+
+        foreach (var photo in Model.Details.result.photos)
+        {
+        <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=@photo.photo_reference&key=@Model.Details.apiKey" />
+            }
+        }
+    
 <br />
-<br />
+<button onclick="goBack()">Go Back</button>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

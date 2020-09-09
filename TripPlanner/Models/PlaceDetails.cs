@@ -10,6 +10,7 @@ namespace TripPlanner.Models
         public object[] html_attributions { get; set; }
         public Result result { get; set; }
         public string status { get; set; }
+        public string apiKey { get; set; }
     }
 
    
